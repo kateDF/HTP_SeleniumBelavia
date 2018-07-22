@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import org.testng.annotations.Test;
 
-import by.htp.belavia.entity.AirlineTicket;
+import by.htp.belavia.entity.SearchFormData;
 import by.htp.belavia.pages.MainPage;
 
 public class TestAvailableOneWayTicketsMinskRiga extends BaseTest {
@@ -14,12 +14,12 @@ public class TestAvailableOneWayTicketsMinskRiga extends BaseTest {
 	private static final LocalDate DEPARTURE_DATE = LocalDate.of(2018, 8, 1);
 	private static final boolean IS_NOT_RETURN_TICKET = false;
 
-	private AirlineTicket ticket;
+	private SearchFormData ticket;
 
 	@Test
 	public void getAvailibleOneWayTicketsMinskRiga() {
 		MainPage mainPage = steps.openMainPage();
-		ticket = new AirlineTicket(DEPARTURE_COUNTRY, ARRIVAL_COUNTRY, DEPARTURE_DATE, IS_NOT_RETURN_TICKET);
+		ticket = new SearchFormData(DEPARTURE_COUNTRY, ARRIVAL_COUNTRY, DEPARTURE_DATE, IS_NOT_RETURN_TICKET);
 
 	}
 

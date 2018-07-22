@@ -2,7 +2,7 @@ package by.htp.belavia.entity;
 
 import java.time.LocalDate;
 
-public class AirlineTicket {
+public class SearchFormData {
 
 	private String departureCountry;
 	private String arrivalCountry;
@@ -10,11 +10,11 @@ public class AirlineTicket {
 	private boolean isReturnTicket;
 	private LocalDate returnDate;
 
-	public AirlineTicket() {
+	public SearchFormData() {
 
 	}
 
-	public AirlineTicket(String departureCountry, String arrivalCountry, LocalDate departureDate,
+	public SearchFormData(String departureCountry, String arrivalCountry, LocalDate departureDate,
 			boolean isReturnTicket) {
 		this.departureCountry = departureCountry;
 		this.arrivalCountry = arrivalCountry;
@@ -22,7 +22,7 @@ public class AirlineTicket {
 		this.isReturnTicket = isReturnTicket;
 	}
 
-	public AirlineTicket(String departureCountry, String arrivalCountry, LocalDate departureDate,
+	public SearchFormData(String departureCountry, String arrivalCountry, LocalDate departureDate,
 			boolean isReturnTicket, LocalDate returnDate) {
 		this.departureCountry = departureCountry;
 		this.arrivalCountry = arrivalCountry;
@@ -91,7 +91,7 @@ public class AirlineTicket {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AirlineTicket other = (AirlineTicket) obj;
+		SearchFormData other = (SearchFormData) obj;
 		if (arrivalCountry == null) {
 			if (other.arrivalCountry != null)
 				return false;
