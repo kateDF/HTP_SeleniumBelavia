@@ -21,6 +21,7 @@ public class TestAvailableOneWayTicketsMinskRiga extends BaseTest {
 		MainPage mainPage = steps.openMainPage();
 		ticket = new SearchFormData(DEPARTURE_COUNTRY, ARRIVAL_COUNTRY, DEPARTURE_DATE, IS_NOT_RETURN_TICKET);
 
+		steps.searchOneWayTickets(ticket);
 	}
 
 }

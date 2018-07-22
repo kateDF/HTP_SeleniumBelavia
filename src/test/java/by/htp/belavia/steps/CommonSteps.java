@@ -3,6 +3,7 @@ package by.htp.belavia.steps;
 import org.openqa.selenium.WebDriver;
 
 import by.htp.belavia.driver.DriverSingleton;
+import by.htp.belavia.entity.SearchFormData;
 import by.htp.belavia.pages.MainPage;
 
 public class CommonSteps {
@@ -21,6 +22,11 @@ public class CommonSteps {
 		MainPage mainPage = new MainPage(driver);
 		mainPage.openPage();
 		return mainPage;
+	}
+
+	public void searchOneWayTickets(SearchFormData ticket) {
+		MainPage mainPage = new MainPage(driver);
+		mainPage.searchTickets(ticket);
 	}
 
 }
