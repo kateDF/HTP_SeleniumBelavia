@@ -1,11 +1,10 @@
 package by.htp.belavia.pages;
 
 import java.time.LocalDate;
-import java.time.format.TextStyle;
-import java.util.Locale;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,30 +20,18 @@ public class MainPage extends AbstractPage {
 	private static final String ARRIVAL_COUNTRY_COMBOBOX_ID = "DestinationLocation_Combobox";
 	private static final String ONE_WAY_TICKET_RADIO_BUTTON_XPATH = "//label[@for='JourneySpan_Ow']";
 	private static final String RETURN_TICKET_RADIO_BUTTON_XPATH = "//label[@for='JourneySpan_Rt']";
-	private static final String DEPARTURE_DATE_INPUT_XPATH = "//*[@id='step-2']/div[2]/div[1]/div/a";
-	private static final String RETURN_DATE_INPUT_XPATH = "//*[@id='step-2']/div[2]/div[2]/div/a";
-	private static final String CALENDAR_XPATH = "//*[@id=\"calendar\"]/div";
-	private static final String CALENDAR_YEAR_XPATH = "//*[@id='calendar']/div/div[1]/div/div/span[2]";
-	private static final String CALENDAR_MONTH_XPATH = "//*[@id='calendar']/div/div[1]/div/div/span[1]";
-	private static final String CALENDAR_LAST_MONTH_XPATH = "//*[@id='calendar']/div/div[2]/div/div/span[1]";
+	private static final String DEPARTURE_DATE_INPUT_XPATH = "//input[@id='DepartureDate_Datepicker']/../a";
 	private static final String CALENDAR_NEXT_MONTH_BUTTON_XPATH = "//*[@id='calendar']/div/div[2]/div/a";
-	private static final String CALENDAR_DAYS_TABLE_XPATH = "//*[@id='calendar']/div/div[1]/table";
-	private static final String CALENDAR_DAY_IN_DAYS_TABLE_XPATH = "tbody/tr/td";
-	private static final String CALENDAR_DAYS_TABLE_IN_LAST_MONTH_XPATH = "//*[@id='calendar']/div/div[2]/table";
 	private static final String SUBMIT_BUTTON_XPATH = "//*[@id='step-2']/div[4]/div/button";
+	private static final String DATE_XPATH = "//td[@data-month='%d'][@data-year='%d']/a[text()='%d']";
 
 	private WebElement departureCountryCombobox;
 	private WebElement arrivalCountryCombobox;
 	private WebElement oneWayTicketRadioButton;
 	private WebElement returnTicketRadioButton;
 	private WebElement departureDateInput;
-	private WebElement returnDateInput;
-	private WebElement submitButton;
-	private WebElement calendarYear;
-	private WebElement calendarMonthName;
-	private WebElement calendarLastMonth;
 	private WebElement calendarNextMonthButton;
-	private WebElement calendarDaysTable;
+	private WebElement submitButton;
 
 	public MainPage(WebDriver driver) {
 		super(driver);
@@ -70,52 +57,30 @@ public class MainPage extends AbstractPage {
 
 		departureDateInput = driver.findElement(By.xpath(DEPARTURE_DATE_INPUT_XPATH));
 		departureDateInput.click();
-		setDate(ticket.getDepartureDate());
+		selectDate(ticket.getDepartureDate());
+
+		if (ticket.isReturnTicket()) {
+			selectDate(ticket.getReturnDate());
+		}
 
 		submitButton = driver.findElement(By.xpath(SUBMIT_BUTTON_XPATH));
 		submitButton.click();
 
 	}
 
-	private void setDate(LocalDate date) {
-		calendarYear = driver.findElement(By.xpath(CALENDAR_YEAR_XPATH));
-		while (date.getYear() != Integer.parseInt(calendarYear.getText())) {
-			clickNextButtonOnCalendar();
-			calendarYear = driver.findElement(By.xpath(CALENDAR_YEAR_XPATH));
-		}
-
-		String expectedMonth = date.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.forLanguageTag("ru"));
-		calendarMonthName = driver.findElement(By.xpath(CALENDAR_MONTH_XPATH));
-
-		String current = null;
-		while (!expectedMonth.equals(calendarMonthName.getText())) {
-			current = calendarMonthName.getText();
-			clickNextButtonOnCalendar();
-			calendarMonthName = driver.findElement(By.xpath(CALENDAR_MONTH_XPATH));
-			if (current.equals(calendarMonthName.getText())) {
-				calendarLastMonth = driver.findElement(By.xpath(CALENDAR_LAST_MONTH_XPATH));
-				if (expectedMonth.equals(calendarLastMonth.getText())) {
-					current = "last";
-					break;
-				} else {
-					throw new IllegalArgumentException();
-				}
+	private void selectDate(LocalDate date) {
+		WebElement departureDate = null;
+		do {
+			try {
+				System.out.println(
+						String.format(DATE_XPATH, date.getMonthValue() - 1, date.getYear(), date.getDayOfMonth()));
+				departureDate = driver.findElement(By.xpath(
+						String.format(DATE_XPATH, date.getMonthValue() - 1, date.getYear(), date.getDayOfMonth())));
+			} catch (NoSuchElementException e) {
+				clickNextButtonOnCalendar();
 			}
-		}
-
-		String expectedDay = Integer.toString(date.getDayOfMonth());
-		if (current.equals("last")) {
-			calendarDaysTable = driver.findElement(By.xpath(CALENDAR_DAYS_TABLE_IN_LAST_MONTH_XPATH));
-		} else {
-			calendarDaysTable = driver.findElement(By.xpath(CALENDAR_DAYS_TABLE_XPATH));
-		}
-
-		for (WebElement calendarDay : calendarDaysTable.findElements(By.xpath(CALENDAR_DAY_IN_DAYS_TABLE_XPATH))) {
-			if (expectedDay.equals(calendarDay.getText())) {
-				calendarDay.click();
-				break;
-			}
-		}
+		} while (departureDate == null);
+		departureDate.click();
 	}
 
 	private void clickNextButtonOnCalendar() {
