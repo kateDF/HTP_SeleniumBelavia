@@ -1,6 +1,6 @@
 package by.htp.belavia.steps;
 
-import java.util.Set;
+import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 
@@ -43,6 +43,12 @@ public class CommonSteps {
 			return resultPage.navigateToFareCalendar();
 		}
 		return new FareCalendarPage(driver);
+	}
+
+	public List<Ticket> getListOfTickets(SearchFormData searchData) {
+		FareCalendarPage fareCalendar = new FareCalendarPage(driver);
+		List<Ticket> tickets = fareCalendar.getListOfTickets(searchData);
+		return tickets;
 	}
 
 }
