@@ -8,17 +8,18 @@ public class Ticket {
 	private String arrivalCountry;
 	private LocalDate date;
 	private double cost;
+	private String currency;
 
 	public Ticket() {
 
 	}
 
-	public Ticket(String departureCountry, String arrivalCountry, LocalDate date, double cost) {
-		super();
+	public Ticket(String departureCountry, String arrivalCountry, LocalDate date, double cost, String currency) {
 		this.departureCountry = departureCountry;
 		this.arrivalCountry = arrivalCountry;
 		this.date = date;
 		this.cost = cost;
+		this.currency = currency;
 	}
 
 	public String getDepartureCountry() {
@@ -53,6 +54,14 @@ public class Ticket {
 		this.cost = cost;
 	}
 
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -61,6 +70,7 @@ public class Ticket {
 		long temp;
 		temp = Double.doubleToLongBits(cost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((departureCountry == null) ? 0 : departureCountry.hashCode());
 		return result;
@@ -82,6 +92,11 @@ public class Ticket {
 			return false;
 		if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
 			return false;
+		if (currency == null) {
+			if (other.currency != null)
+				return false;
+		} else if (!currency.equals(other.currency))
+			return false;
 		if (date == null) {
 			if (other.date != null)
 				return false;
@@ -97,7 +112,8 @@ public class Ticket {
 
 	@Override
 	public String toString() {
-		return "Ticket: " + departureCountry + " - " + arrivalCountry + ", date: " + date + ", Cost: " + cost;
+		return "Ticket: " + departureCountry + " - " + arrivalCountry + ", date: " + date + ", Cost: " + cost + " "
+				+ currency;
 	}
 
 }
