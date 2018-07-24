@@ -57,9 +57,6 @@ public class FareCalendarPage extends SearchResultPage {
 				nextDaysButton.click();
 			}
 		} while (!actualDate.isAfter(endDate));
-		for (Ticket t : tickets) {
-			System.out.println(t);
-		}
 		return tickets;
 	}
 
