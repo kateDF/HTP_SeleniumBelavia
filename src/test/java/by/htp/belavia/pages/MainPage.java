@@ -7,8 +7,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import by.htp.belavia.entity.SearchFormData;
 
@@ -25,47 +25,51 @@ public class MainPage extends AbstractPage {
 	private static final String SUBMIT_BUTTON_XPATH = "//*[@id='step-2']/div[4]/div/button";
 	private static final String DATE_XPATH = "//td[@data-month='%d'][@data-year='%d']/a[text()='%d']";
 
-	private WebElement departureCountryCombobox;
-	private WebElement arrivalCountryCombobox;
-	private WebElement oneWayTicketRadioButton;
-	private WebElement returnTicketRadioButton;
-	private WebElement departureDateInput;
-	private WebElement calendarNextMonthButton;
-	private WebElement submitButton;
-
 	public MainPage(WebDriver driver) {
 		super(driver);
+		PageFactory.initElements(driver, this);
 	}
+
+	@FindBy(id = DEPARTURE_COUNTRY_COMBOBOX_ID)
+	private WebElement departureCountryCombobox;
+
+	@FindBy(id = ARRIVAL_COUNTRY_COMBOBOX_ID)
+	private WebElement arrivalCountryCombobox;
+
+	@FindBy(xpath = ONE_WAY_TICKET_RADIO_BUTTON_XPATH)
+	private WebElement oneWayTicketRadioButton;
+
+	@FindBy(xpath = RETURN_TICKET_RADIO_BUTTON_XPATH)
+	private WebElement returnTicketRadioButton;
+
+	@FindBy(xpath = DEPARTURE_DATE_INPUT_XPATH)
+	private WebElement departureDateInput;
+
+	@FindBy(xpath = CALENDAR_NEXT_MONTH_BUTTON_XPATH)
+	private WebElement calendarNextMonthButton;
+
+	@FindBy(xpath = SUBMIT_BUTTON_XPATH)
+	private WebElement submitButton;
 
 	public void searchTickets(SearchFormData ticket) {
 
-		departureCountryCombobox = driver.findElement(By.id(DEPARTURE_COUNTRY_COMBOBOX_ID));
 		departureCountryCombobox.sendKeys(ticket.getDepartureCountry() + Keys.ENTER);
-
-		arrivalCountryCombobox = driver.findElement(By.id(ARRIVAL_COUNTRY_COMBOBOX_ID));
 		arrivalCountryCombobox.sendKeys(ticket.getArrivalCountry() + Keys.ENTER);
 
 		if (!ticket.isReturnTicket()) {
-			oneWayTicketRadioButton = (new WebDriverWait(driver, 10)).until(ExpectedConditions
-					.elementToBeClickable(driver.findElement(By.xpath(ONE_WAY_TICKET_RADIO_BUTTON_XPATH))));
 			oneWayTicketRadioButton.click();
 		} else {
-			returnTicketRadioButton = (new WebDriverWait(driver, 10)).until(ExpectedConditions
-					.elementToBeClickable(driver.findElement(By.xpath(RETURN_TICKET_RADIO_BUTTON_XPATH))));
 			returnTicketRadioButton.click();
 		}
 
-		departureDateInput = driver.findElement(By.xpath(DEPARTURE_DATE_INPUT_XPATH));
 		departureDateInput.click();
-		selectDate(ticket.getDepartureDate());
+		selectDate(ticket.getDepartureDateStart());
 
 		if (ticket.isReturnTicket()) {
-			selectDate(ticket.getReturnDate());
+			selectDate(ticket.getReturnDateStart());
 		}
 
-		submitButton = driver.findElement(By.xpath(SUBMIT_BUTTON_XPATH));
 		submitButton.click();
-
 	}
 
 	private void selectDate(LocalDate date) {
@@ -84,7 +88,6 @@ public class MainPage extends AbstractPage {
 	}
 
 	private void clickNextButtonOnCalendar() {
-		calendarNextMonthButton = driver.findElement(By.xpath(CALENDAR_NEXT_MONTH_BUTTON_XPATH));
 		calendarNextMonthButton.click();
 	}
 

@@ -6,29 +6,42 @@ public class SearchFormData {
 
 	private String departureCountry;
 	private String arrivalCountry;
-	private LocalDate departureDate;
+	private LocalDate departureDateStart;
+	private LocalDate departureDateEnd;
 	private boolean isReturnTicket;
-	private LocalDate returnDate;
+	private LocalDate returnDateStart;
+	private LocalDate returnDateEnd;
 
 	public SearchFormData() {
 
 	}
 
-	public SearchFormData(String departureCountry, String arrivalCountry, LocalDate departureDate,
+	public SearchFormData(String departureCountry, String arrivalCountry, LocalDate departureDateStart,
 			boolean isReturnTicket) {
 		this.departureCountry = departureCountry;
 		this.arrivalCountry = arrivalCountry;
-		this.departureDate = departureDate;
+		this.departureDateStart = departureDateStart;
 		this.isReturnTicket = isReturnTicket;
 	}
 
-	public SearchFormData(String departureCountry, String arrivalCountry, LocalDate departureDate,
-			boolean isReturnTicket, LocalDate returnDate) {
+	public SearchFormData(String departureCountry, String arrivalCountry, LocalDate departureDateStart,
+			LocalDate departureDateEnd, boolean isReturnTicket) {
 		this.departureCountry = departureCountry;
 		this.arrivalCountry = arrivalCountry;
-		this.departureDate = departureDate;
+		this.departureDateStart = departureDateStart;
+		this.departureDateEnd = departureDateEnd;
 		this.isReturnTicket = isReturnTicket;
-		this.returnDate = returnDate;
+	}
+
+	public SearchFormData(String departureCountry, String arrivalCountry, LocalDate departureDateStart,
+			LocalDate departureDateEnd, boolean isReturnTicket, LocalDate returnDateStart, LocalDate returnDateEnd) {
+		this.departureCountry = departureCountry;
+		this.arrivalCountry = arrivalCountry;
+		this.departureDateStart = departureDateStart;
+		this.departureDateEnd = departureDateEnd;
+		this.isReturnTicket = isReturnTicket;
+		this.returnDateStart = returnDateStart;
+		this.returnDateEnd = returnDateEnd;
 	}
 
 	public String getDepartureCountry() {
@@ -47,12 +60,20 @@ public class SearchFormData {
 		this.arrivalCountry = arrivalCountry;
 	}
 
-	public LocalDate getDepartureDate() {
-		return departureDate;
+	public LocalDate getDepartureDateStart() {
+		return departureDateStart;
 	}
 
-	public void setDepartureDate(LocalDate departureDate) {
-		this.departureDate = departureDate;
+	public void setDepartureDateStart(LocalDate departureDateStart) {
+		this.departureDateStart = departureDateStart;
+	}
+
+	public LocalDate getDepartureDateEnd() {
+		return departureDateEnd;
+	}
+
+	public void setDepartureDateEnd(LocalDate departureDateEnd) {
+		this.departureDateEnd = departureDateEnd;
 	}
 
 	public boolean isReturnTicket() {
@@ -63,12 +84,20 @@ public class SearchFormData {
 		this.isReturnTicket = isReturnTicket;
 	}
 
-	public LocalDate getReturnDate() {
-		return returnDate;
+	public LocalDate getReturnDateStart() {
+		return returnDateStart;
 	}
 
-	public void setReturnDate(LocalDate returnDate) {
-		this.returnDate = returnDate;
+	public void setReturnDateStart(LocalDate returnDateStart) {
+		this.returnDateStart = returnDateStart;
+	}
+
+	public LocalDate getReturnDateEnd() {
+		return returnDateEnd;
+	}
+
+	public void setReturnDateEnd(LocalDate returnDateEnd) {
+		this.returnDateEnd = returnDateEnd;
 	}
 
 	@Override
@@ -77,9 +106,11 @@ public class SearchFormData {
 		int result = 1;
 		result = prime * result + ((arrivalCountry == null) ? 0 : arrivalCountry.hashCode());
 		result = prime * result + ((departureCountry == null) ? 0 : departureCountry.hashCode());
-		result = prime * result + ((departureDate == null) ? 0 : departureDate.hashCode());
+		result = prime * result + ((departureDateEnd == null) ? 0 : departureDateEnd.hashCode());
+		result = prime * result + ((departureDateStart == null) ? 0 : departureDateStart.hashCode());
 		result = prime * result + (isReturnTicket ? 1231 : 1237);
-		result = prime * result + ((returnDate == null) ? 0 : returnDate.hashCode());
+		result = prime * result + ((returnDateEnd == null) ? 0 : returnDateEnd.hashCode());
+		result = prime * result + ((returnDateStart == null) ? 0 : returnDateStart.hashCode());
 		return result;
 	}
 
@@ -102,17 +133,27 @@ public class SearchFormData {
 				return false;
 		} else if (!departureCountry.equals(other.departureCountry))
 			return false;
-		if (departureDate == null) {
-			if (other.departureDate != null)
+		if (departureDateEnd == null) {
+			if (other.departureDateEnd != null)
 				return false;
-		} else if (!departureDate.equals(other.departureDate))
+		} else if (!departureDateEnd.equals(other.departureDateEnd))
+			return false;
+		if (departureDateStart == null) {
+			if (other.departureDateStart != null)
+				return false;
+		} else if (!departureDateStart.equals(other.departureDateStart))
 			return false;
 		if (isReturnTicket != other.isReturnTicket)
 			return false;
-		if (returnDate == null) {
-			if (other.returnDate != null)
+		if (returnDateEnd == null) {
+			if (other.returnDateEnd != null)
 				return false;
-		} else if (!returnDate.equals(other.returnDate))
+		} else if (!returnDateEnd.equals(other.returnDateEnd))
+			return false;
+		if (returnDateStart == null) {
+			if (other.returnDateStart != null)
+				return false;
+		} else if (!returnDateStart.equals(other.returnDateStart))
 			return false;
 		return true;
 	}
@@ -120,8 +161,9 @@ public class SearchFormData {
 	@Override
 	public String toString() {
 		return "Airline Ticket: departureCountry: " + departureCountry + ", arrivalCountry: " + arrivalCountry
-				+ ". DepartureDate: " + departureDate + ", isReturnTicket: " + isReturnTicket + "."
-				+ (returnDate != null ? " ReturnDate:" + returnDate : "");
+				+ ". DepartureDatePeriod: " + departureDateStart + " to " + departureDateEnd + ", isReturnTicket: "
+				+ isReturnTicket + "."
+				+ (returnDateStart != null ? " ReturnDatePeriod:" + returnDateStart + " to " + returnDateEnd : "");
 	}
 
 }
