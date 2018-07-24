@@ -4,7 +4,8 @@ import java.time.LocalDate;
 
 public class Ticket {
 
-	private String direction;
+	private String departureCountry;
+	private String arrivalCountry;
 	private LocalDate date;
 	private double cost;
 
@@ -12,18 +13,28 @@ public class Ticket {
 
 	}
 
-	public Ticket(String direction, LocalDate date, double cost) {
-		this.direction = direction;
+	public Ticket(String departureCountry, String arrivalCountry, LocalDate date, double cost) {
+		super();
+		this.departureCountry = departureCountry;
+		this.arrivalCountry = arrivalCountry;
 		this.date = date;
 		this.cost = cost;
 	}
 
-	public String getDirection() {
-		return direction;
+	public String getDepartureCountry() {
+		return departureCountry;
 	}
 
-	public void setDirection(String direction) {
-		this.direction = direction;
+	public void setDepartureCountry(String departureCountry) {
+		this.departureCountry = departureCountry;
+	}
+
+	public String getArrivalCountry() {
+		return arrivalCountry;
+	}
+
+	public void setArrivalCountry(String arrivalCountry) {
+		this.arrivalCountry = arrivalCountry;
 	}
 
 	public LocalDate getDate() {
@@ -46,11 +57,12 @@ public class Ticket {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((arrivalCountry == null) ? 0 : arrivalCountry.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(cost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
+		result = prime * result + ((departureCountry == null) ? 0 : departureCountry.hashCode());
 		return result;
 	}
 
@@ -63,6 +75,11 @@ public class Ticket {
 		if (getClass() != obj.getClass())
 			return false;
 		Ticket other = (Ticket) obj;
+		if (arrivalCountry == null) {
+			if (other.arrivalCountry != null)
+				return false;
+		} else if (!arrivalCountry.equals(other.arrivalCountry))
+			return false;
 		if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
 			return false;
 		if (date == null) {
@@ -70,17 +87,17 @@ public class Ticket {
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (direction == null) {
-			if (other.direction != null)
+		if (departureCountry == null) {
+			if (other.departureCountry != null)
 				return false;
-		} else if (!direction.equals(other.direction))
+		} else if (!departureCountry.equals(other.departureCountry))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Ticket [direction=" + direction + ", date=" + date + ", cost=" + cost + "]";
+		return "Ticket: " + departureCountry + " - " + arrivalCountry + ", date: " + date + ", Cost: " + cost;
 	}
 
 }
