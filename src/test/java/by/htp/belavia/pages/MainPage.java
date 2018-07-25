@@ -76,8 +76,6 @@ public class MainPage extends AbstractPage {
 		WebElement departureDate = null;
 		do {
 			try {
-				System.out.println(
-						String.format(DATE_XPATH, date.getMonthValue() - 1, date.getYear(), date.getDayOfMonth()));
 				departureDate = driver.findElement(By.xpath(
 						String.format(DATE_XPATH, date.getMonthValue() - 1, date.getYear(), date.getDayOfMonth())));
 			} catch (NoSuchElementException e) {

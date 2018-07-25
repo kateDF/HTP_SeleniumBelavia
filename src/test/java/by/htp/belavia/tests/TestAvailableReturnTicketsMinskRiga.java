@@ -1,12 +1,15 @@
 package by.htp.belavia.tests;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import org.testng.annotations.Test;
 
 import by.htp.belavia.entity.ReturnTicket;
 import by.htp.belavia.entity.SearchFormData;
+import by.htp.belavia.entity.comparator.ReturnTicketDateComparator;
+import by.htp.belavia.entity.comparator.TicketCostComparator;
 import by.htp.belavia.pages.MainPage;
 
 public class TestAvailableReturnTicketsMinskRiga extends BaseTest {
@@ -31,6 +34,15 @@ public class TestAvailableReturnTicketsMinskRiga extends BaseTest {
 		List<ReturnTicket> returnTickets = steps.getListOfReturnTickets(searchData);
 
 		int i = 1;
+		System.out.println("All return tickets  sorted by cost");
+		Collections.sort(returnTickets, new TicketCostComparator());
+		for (ReturnTicket rt : returnTickets) {
+			System.out.println(i++ + ". " + rt);
+		}
+
+		i = 1;
+		System.out.println("\nAll return tickets  sorted by date");
+		Collections.sort(returnTickets, new ReturnTicketDateComparator());
 		for (ReturnTicket rt : returnTickets) {
 			System.out.println(i++ + ". " + rt);
 		}
