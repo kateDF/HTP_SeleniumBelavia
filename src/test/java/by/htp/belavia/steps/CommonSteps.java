@@ -5,6 +5,7 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 
 import by.htp.belavia.driver.DriverSingleton;
+import by.htp.belavia.entity.ReturnTicket;
 import by.htp.belavia.entity.SearchFormData;
 import by.htp.belavia.entity.Ticket;
 import by.htp.belavia.pages.FareCalendarPage;
@@ -48,6 +49,12 @@ public class CommonSteps {
 	public List<Ticket> getListOfTickets(SearchFormData searchData) {
 		FareCalendarPage fareCalendar = new FareCalendarPage(driver);
 		List<Ticket> tickets = fareCalendar.getListOfTickets(searchData);
+		return tickets;
+	}
+
+	public List<ReturnTicket> getListOfReturnTickets(SearchFormData searchData) {
+		FareCalendarPage fareCalendar = new FareCalendarPage(driver);
+		List<ReturnTicket> tickets = fareCalendar.getListOfReturnTickets(searchData);
 		return tickets;
 	}
 

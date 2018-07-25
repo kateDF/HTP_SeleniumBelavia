@@ -66,7 +66,7 @@ public class MainPage extends AbstractPage {
 		selectDate(ticket.getDepartureDateStart());
 
 		if (ticket.isReturnTicket()) {
-			selectDate(ticket.getReturnDateStart());
+			selectDate(ticket.getReturnDateEnd());
 		}
 
 		submitButton.click();
