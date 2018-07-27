@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 
 import by.htp.belavia.driver.DriverSingleton;
+import by.htp.belavia.entity.OneWayDetailsTicket;
 import by.htp.belavia.entity.ReturnTicket;
 import by.htp.belavia.entity.SearchFormData;
 import by.htp.belavia.entity.Ticket;
@@ -60,9 +61,9 @@ public class CommonSteps {
 		return tickets;
 	}
 
-	public void getDetailsTicket(LocalDate flightExpectedDate) {
+	public List<OneWayDetailsTicket> getDetailsOneWayTickets(LocalDate flightExpectedDate) {
 		SuccessSearchResultPage sp = new SuccessSearchResultPage(driver);
-		sp.getDetailsTicket(flightExpectedDate);
+		return sp.getDetailsOneWayTickets(flightExpectedDate);
 	}
 
 }

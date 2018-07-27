@@ -76,7 +76,7 @@ public class SuccessSearchResultPage extends SearchResultPage {
 		PageFactory.initElements(driver, this);
 	}
 
-	public List<OneWayDetailsTicket> getDetailsTicket(LocalDate flightExpectedDate) {
+	public List<OneWayDetailsTicket> getDetailsOneWayTickets(LocalDate flightExpectedDate) {
 		List<OneWayDetailsTicket> tickets = new ArrayList<>();
 
 		OneWayDetailsTicket commonTicketDetails = getCommonDetails(flightExpectedDate);
@@ -121,9 +121,6 @@ public class SuccessSearchResultPage extends SearchResultPage {
 
 		}
 
-		for (OneWayDetailsTicket t : tickets) {
-			System.out.println(t);
-		}
 		return tickets;
 	}
 
@@ -177,7 +174,7 @@ public class SuccessSearchResultPage extends SearchResultPage {
 	private double getCostsWithTaxes() {
 		double costWithTax = 0;
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 			costWithTaxes = driver.findElement(By.xpath(COST_WITH_TAXES_XPATH));
 			costWithTax = Double.parseDouble(costWithTaxes.getText().replaceAll(",", "."));
 		} catch (InterruptedException e) {
