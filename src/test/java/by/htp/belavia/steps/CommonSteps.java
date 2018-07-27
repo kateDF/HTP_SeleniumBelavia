@@ -1,5 +1,6 @@
 package by.htp.belavia.steps;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
@@ -8,8 +9,8 @@ import by.htp.belavia.driver.DriverSingleton;
 import by.htp.belavia.entity.ReturnTicket;
 import by.htp.belavia.entity.SearchFormData;
 import by.htp.belavia.entity.Ticket;
-import by.htp.belavia.pages.FareCalendarOneWayTicketsPage;
 import by.htp.belavia.pages.AbstractFareCalendarPage;
+import by.htp.belavia.pages.FareCalendarOneWayTicketsPage;
 import by.htp.belavia.pages.FareCalendarReturnTicketsPage;
 import by.htp.belavia.pages.MainPage;
 import by.htp.belavia.pages.SearchResultPage;
@@ -57,6 +58,11 @@ public class CommonSteps {
 		AbstractFareCalendarPage fareCalendar = new FareCalendarReturnTicketsPage(driver);
 		List<ReturnTicket> tickets = fareCalendar.getListOfTickets(searchData);
 		return tickets;
+	}
+
+	public void getDetailsTicket(LocalDate flightExpectedDate) {
+		SuccessSearchResultPage sp = new SuccessSearchResultPage(driver);
+		sp.getDetailsTicket(flightExpectedDate);
 	}
 
 }
