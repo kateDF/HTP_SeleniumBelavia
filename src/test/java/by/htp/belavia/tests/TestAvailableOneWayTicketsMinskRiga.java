@@ -39,7 +39,7 @@ public class TestAvailableOneWayTicketsMinskRiga extends BaseTest {
 			System.out.println(i++ + ". " + ticket);
 		}
 
-		System.out.println("/nList of one-way tickets csorted by date");
+		System.out.println("\nList of one-way tickets csorted by date");
 		Collections.sort(tickets, new TicketDateComparator());
 		i = 1;
 		for (Ticket ticket : tickets) {

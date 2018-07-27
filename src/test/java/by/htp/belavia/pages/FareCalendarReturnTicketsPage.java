@@ -1,7 +1,6 @@
 package by.htp.belavia.pages;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,23 +41,12 @@ public class FareCalendarReturnTicketsPage extends AbstractFareCalendarPage {
 
 				WebElement input = w.findElement(By.xpath(INPUT_WITH_VALUE_DATE_XPATH));
 				String[] dates = input.getAttribute("value").split(":");
-				actualDate = LocalDate.parse(dates[0], DateTimeFormatter.ofPattern("yy-MM-dd"));
-				actualReturnDate = LocalDate.parse(dates[1], DateTimeFormatter.ofPattern("yy-MM-dd"));
+				actualDate = LocalDate.parse(dates[0], FORMATTER);
+				actualReturnDate = LocalDate.parse(dates[1], FORMATTER);
 
 				if (!actualDate.isBefore(startDate) && !actualDate.isAfter(endDate)
 						&& !actualReturnDate.isBefore(startReturnDate) && !actualReturnDate.isAfter(endReturnDate)) {
-					returnTicket = new ReturnTicket();
-					returnTicket.setDepartureCountry(searchData.getDepartureCountry());
-					returnTicket.setArrivalCountry(searchData.getArrivalCountry());
-					returnTicket.setDate(actualDate);
-					returnTicket.setReturnDate(actualReturnDate);
-
-					WebElement label = w.findElement(By.xpath(LABEL_WITH_COST_XPATH));
-					String[] s = label.getText().split(" ");
-					double cost = Double.parseDouble(s[0].replaceAll(",", "."));
-
-					returnTicket.setCost(cost);
-					returnTicket.setCurrency(s[1]);
+					returnTicket = createTicket(w, searchData, actualDate, actualReturnDate);
 					returnTickets.add(returnTicket);
 				}
 			}
@@ -84,6 +72,24 @@ public class FareCalendarReturnTicketsPage extends AbstractFareCalendarPage {
 		} while (!actualDate.isAfter(searchData.getDepartureDateEnd()));
 
 		return returnTickets;
+	}
+
+	private ReturnTicket createTicket(WebElement parentElement, SearchFormData searchData, LocalDate actualDate,
+			LocalDate actualReturnDate) {
+		ReturnTicket ticket = new ReturnTicket();
+
+		ticket.setDepartureCountry(searchData.getDepartureCountry());
+		ticket.setArrivalCountry(searchData.getArrivalCountry());
+		ticket.setDate(actualDate);
+		ticket.setReturnDate(actualReturnDate);
+
+		WebElement label = parentElement.findElement(By.xpath(LABEL_WITH_COST_XPATH));
+		String[] s = label.getText().split(" ");
+		double cost = Double.parseDouble(s[0].replaceAll(",", "."));
+
+		ticket.setCost(cost);
+		ticket.setCurrency(s[1]);
+		return ticket;
 	}
 
 	private void clickNextUpDaysButton() {

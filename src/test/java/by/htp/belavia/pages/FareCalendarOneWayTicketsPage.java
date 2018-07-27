@@ -1,7 +1,6 @@
 package by.htp.belavia.pages;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,20 +27,9 @@ public class FareCalendarOneWayTicketsPage extends AbstractFareCalendarPage {
 			List<WebElement> ticketsElements = driver.findElements(By.xpath(ELEMENTS_WITH_PRICE_XPATH));
 			for (WebElement w : ticketsElements) {
 				WebElement input = w.findElement(By.xpath(INPUT_WITH_VALUE_DATE_XPATH));
-				actualDate = LocalDate.parse(input.getAttribute("value"), DateTimeFormatter.ofPattern("yy-MM-dd"));
+				actualDate = LocalDate.parse(input.getAttribute("value"), FORMATTER);
 				if (!actualDate.isBefore(startDate) && !actualDate.isAfter(endDate)) {
-					Ticket ticket = new Ticket();
-
-					ticket.setDepartureCountry(searchData.getDepartureCountry());
-					ticket.setArrivalCountry(searchData.getArrivalCountry());
-					ticket.setDate(actualDate);
-
-					WebElement label = w.findElement(By.xpath(LABEL_WITH_COST_XPATH));
-					String[] s = label.getText().split(" ");
-					double cost = Double.parseDouble(s[0].replaceAll(",", "."));
-
-					ticket.setCost(cost);
-					ticket.setCurrency(s[1]);
+					Ticket ticket = createTicket(w, searchData, actualDate);
 					tickets.add(ticket);
 				}
 			}
@@ -50,6 +38,22 @@ public class FareCalendarOneWayTicketsPage extends AbstractFareCalendarPage {
 			}
 		} while (!actualDate.isAfter(endDate));
 		return tickets;
+	}
+
+	private Ticket createTicket(WebElement parentElement, SearchFormData searchData, LocalDate actualDate) {
+		Ticket ticket = new Ticket();
+
+		ticket.setDepartureCountry(searchData.getDepartureCountry());
+		ticket.setArrivalCountry(searchData.getArrivalCountry());
+		ticket.setDate(actualDate);
+
+		WebElement label = parentElement.findElement(By.xpath(LABEL_WITH_COST_XPATH));
+		String[] s = label.getText().split(" ");
+		double cost = Double.parseDouble(s[0].replaceAll(",", "."));
+
+		ticket.setCost(cost);
+		ticket.setCurrency(s[1]);
+		return ticket;
 	}
 
 }

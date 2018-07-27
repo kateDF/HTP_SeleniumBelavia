@@ -1,5 +1,6 @@
 package by.htp.belavia.pages;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -15,6 +16,7 @@ public abstract class AbstractFareCalendarPage extends SearchResultPage {
 	protected static final String INPUT_WITH_VALUE_DATE_XPATH = "input";
 	protected static final String LABEL_WITH_COST_XPATH = "label";
 	protected static final String NEXT_RIGHT_DAYS_BUTTON_XPATH = "//div[@class='d-outbound']/div[@class='nav-right']/a";
+	protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yy-MM-dd");
 
 	protected WebElement nextRightDaysButton;
 
