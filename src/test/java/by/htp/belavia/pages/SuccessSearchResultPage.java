@@ -47,6 +47,9 @@ public class SuccessSearchResultPage extends SearchResultPage {
 	@FindBy(xpath = ARRIVAL_TIME_XPATH)
 	private WebElement arrivalTime;
 
+	@FindBy(xpath = CURRENCY_XPATH)
+	private WebElement currency;
+
 	@FindBy(xpath = ECONOMY_PROMOTION_COST_XPATH)
 	private WebElement economyPromotion;
 
@@ -66,7 +69,6 @@ public class SuccessSearchResultPage extends SearchResultPage {
 	private WebElement fareCalendarButton;
 
 	private WebElement costWithTaxes;
-	private WebElement currency;
 	private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("H:mm");
 
 	public SuccessSearchResultPage(WebDriver driver) {
@@ -76,90 +78,44 @@ public class SuccessSearchResultPage extends SearchResultPage {
 
 	public List<OneWayDetailsTicket> getDetailsTicket(LocalDate flightExpectedDate) {
 		List<OneWayDetailsTicket> tickets = new ArrayList<>();
-		OneWayDetailsTicket commonTicketDetails = new OneWayDetailsTicket();
-		OneWayDetailsTicket newTicket = null;
 
-		commonTicketDetails.setDepartureCountry(departureCountry.getAttribute("title"));
-		commonTicketDetails.setArrivalCountry(arrivalCountry.getAttribute("title"));
-
-		String[] fligthDateInf = flightDate.getText().split(" ");
-		LocalDate actualFlightDate = LocalDate.of(flightExpectedDate.getYear(), flightExpectedDate.getMonth(),
-				Integer.parseInt(fligthDateInf[1]));
-		commonTicketDetails.setDate(actualFlightDate);
-
-		commonTicketDetails.setDepartureTime(LocalTime.parse(departureTime.getText(), timeFormat));
-		commonTicketDetails.setArrivalTime(LocalTime.parse(arrivalTime.getText(), timeFormat));
+		OneWayDetailsTicket commonTicketDetails = getCommonDetails(flightExpectedDate);
 
 		try {
-			newTicket = createNewTicket(commonTicketDetails);
-			newTicket.setTicketClass(TicketClassEnum.ECONOMY_PROMOTION);
-			String[] s = economyPromotion.getText().split(" ");
-			newTicket.setCost(Double.parseDouble(s[0].replaceAll(",", ".")));
-
-			economyPromotion.click();
-
-			newTicket.setCostWithTaxes(getCostsWithTaxes());
-			newTicket.setCurrency(getCurrency());
+			OneWayDetailsTicket newTicket = getTicketWithTax(TicketClassEnum.ECONOMY_PROMOTION, economyPromotion,
+					commonTicketDetails);
 			tickets.add(newTicket);
 		} catch (NoSuchElementException e) {
 
 		}
 
 		try {
-			newTicket = createNewTicket(commonTicketDetails);
-			newTicket.setTicketClass(TicketClassEnum.ECONOMY_RESTRICTED);
-			String[] s = economyRestricted.getText().split(" ");
-			newTicket.setCost(Double.parseDouble(s[0].replaceAll(",", ".")));
-
-			economyRestricted.click();
-
-			newTicket.setCostWithTaxes(getCostsWithTaxes());
-			newTicket.setCurrency(getCurrency());
+			OneWayDetailsTicket newTicket = getTicketWithTax(TicketClassEnum.ECONOMY_RESTRICTED, economyRestricted,
+					commonTicketDetails);
 			tickets.add(newTicket);
 		} catch (NoSuchElementException e) {
 
 		}
 
 		try {
-			newTicket = createNewTicket(commonTicketDetails);
-			newTicket.setTicketClass(TicketClassEnum.ECONOMY_SEMI_FLEXIBLE);
-			String[] s = economySemiFlexible.getText().split(" ");
-			newTicket.setCost(Double.parseDouble(s[0].replaceAll(",", ".")));
-
-			economySemiFlexible.click();
-
-			newTicket.setCostWithTaxes(getCostsWithTaxes());
-			newTicket.setCurrency(getCurrency());
+			OneWayDetailsTicket newTicket = getTicketWithTax(TicketClassEnum.ECONOMY_SEMI_FLEXIBLE, economySemiFlexible,
+					commonTicketDetails);
 			tickets.add(newTicket);
 		} catch (NoSuchElementException e) {
 
 		}
 
 		try {
-			newTicket = createNewTicket(commonTicketDetails);
-			newTicket.setTicketClass(TicketClassEnum.ECONOMY_FLEXIBLE);
-			String[] s = economyFlexible.getText().split(" ");
-			newTicket.setCost(Double.parseDouble(s[0].replaceAll(",", ".")));
-
-			economyFlexible.click();
-
-			newTicket.setCostWithTaxes(getCostsWithTaxes());
-			newTicket.setCurrency(getCurrency());
+			OneWayDetailsTicket newTicket = getTicketWithTax(TicketClassEnum.ECONOMY_FLEXIBLE, economyFlexible,
+					commonTicketDetails);
 			tickets.add(newTicket);
 		} catch (NoSuchElementException e) {
 
 		}
 
 		try {
-			newTicket = createNewTicket(commonTicketDetails);
-			newTicket.setTicketClass(TicketClassEnum.BUSINESS);
-			String[] s = businessClass.getText().split(" ");
-			newTicket.setCost(Double.parseDouble(s[0].replaceAll(",", ".")));
-
-			businessClass.click();
-
-			newTicket.setCostWithTaxes(getCostsWithTaxes());
-			newTicket.setCurrency(getCurrency());
+			OneWayDetailsTicket newTicket = getTicketWithTax(TicketClassEnum.BUSINESS, businessClass,
+					commonTicketDetails);
 			tickets.add(newTicket);
 		} catch (NoSuchElementException e) {
 
@@ -182,6 +138,39 @@ public class SuccessSearchResultPage extends SearchResultPage {
 		newTicket.setDepartureTime(detailsTicket.getDepartureTime());
 		newTicket.setArrivalTime(detailsTicket.getArrivalTime());
 		newTicket.setDate(detailsTicket.getDate());
+		newTicket.setCurrency(detailsTicket.getCurrency());
+		return newTicket;
+	}
+
+	private OneWayDetailsTicket getCommonDetails(LocalDate flightExpectedDate) {
+		OneWayDetailsTicket commonTicketDetails = new OneWayDetailsTicket();
+
+		commonTicketDetails.setDepartureCountry(departureCountry.getAttribute("title"));
+		commonTicketDetails.setArrivalCountry(arrivalCountry.getAttribute("title"));
+
+		String[] fligthDateInf = flightDate.getText().split(" ");
+		LocalDate actualFlightDate = LocalDate.of(flightExpectedDate.getYear(), flightExpectedDate.getMonth(),
+				Integer.parseInt(fligthDateInf[1]));
+		commonTicketDetails.setDate(actualFlightDate);
+
+		commonTicketDetails.setDepartureTime(LocalTime.parse(departureTime.getText(), timeFormat));
+		commonTicketDetails.setArrivalTime(LocalTime.parse(arrivalTime.getText(), timeFormat));
+
+		commonTicketDetails.setCurrency(currency.getText());
+
+		return commonTicketDetails;
+	}
+
+	private OneWayDetailsTicket getTicketWithTax(TicketClassEnum tce, WebElement element, OneWayDetailsTicket common) {
+		OneWayDetailsTicket newTicket = createNewTicket(common);
+		newTicket.setTicketClass(tce);
+		String[] s = element.getText().split(" ");
+		newTicket.setCost(Double.parseDouble(s[0].replaceAll(",", ".")));
+
+		element.click();
+
+		newTicket.setCostWithTaxes(getCostsWithTaxes());
+		newTicket.setCurrency(getCurrency());
 		return newTicket;
 	}
 
