@@ -14,10 +14,10 @@ public class SuccessSearchResultPage extends SearchResultPage {
 		super(driver);
 	}
 
-	public FareCalendarPage navigateToFareCalendar() {
+	public void navigateToFareCalendar() {
 		fareCalendarButton = driver.findElement(By.xpath(FARE_CALENDAR_BUTTON_XPATH));
 		fareCalendarButton.click();
-		return new FareCalendarPage(driver);
+
 	}
 
 }

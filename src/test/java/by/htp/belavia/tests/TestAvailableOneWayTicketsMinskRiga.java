@@ -30,7 +30,7 @@ public class TestAvailableOneWayTicketsMinskRiga extends BaseTest {
 
 		steps.searchTickets(searchData);
 		steps.navigateToFareCalendar();
-		List<Ticket> tickets = steps.getListOfTickets(searchData);
+		List<Ticket> tickets = steps.getListOfOneWayTickets(searchData);
 
 		System.out.println("List of one-way tickets sorted by cost");
 		Collections.sort(tickets, new TicketCostComparator());
