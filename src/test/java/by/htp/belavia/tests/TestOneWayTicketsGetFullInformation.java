@@ -24,7 +24,7 @@ public class TestOneWayTicketsGetFullInformation extends BaseTest {
 	private SearchFormData searchData;
 
 	@Test
-	public void getAvailibleOneWayTicketsMinskRiga() {
+	public void getDetailOneWayTicketsMinskRiga() {
 		List<OneWayDetailsTicket> detailsOneWayTickets = new ArrayList<>();
 
 		LocalDate curentDate = DEPARTURE_DATE_START;

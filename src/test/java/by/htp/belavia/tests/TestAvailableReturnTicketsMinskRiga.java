@@ -24,7 +24,7 @@ public class TestAvailableReturnTicketsMinskRiga extends BaseTest {
 	private SearchFormData searchData;
 
 	@Test
-	public void getAvailibleOneWayTicketsMinskRiga() {
+	public void getAvailibleReturnTicketsMinskRiga() {
 		MainPage mainPage = steps.openMainPage();
 		searchData = new SearchFormData(DEPARTURE_COUNTRY, ARRIVAL_COUNTRY, DEPARTURE_DATE_START, DEPARTURE_DATE_END,
 				IS_RETURN_TICKET, RETURN_DATE_START, RETURN_DATE_END);
