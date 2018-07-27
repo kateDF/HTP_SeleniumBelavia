@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="AvailableOneWayTickets">
+	<test name="testGetOneWayTickets">
+		<classes>
+			<class name="by.htp.belavia.tests.TestAvailableOneWayTicketsMinskRiga">
+				<methods>
+					<include name="getAvailibleOneWayTicketsMinskRiga"/>
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>
