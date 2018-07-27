@@ -34,18 +34,11 @@ public class TestAvailableOneWayTicketsMinskRiga extends BaseTest {
 
 		System.out.println("List of one-way tickets sorted by cost");
 		Collections.sort(tickets, new TicketCostComparator());
-		int i = 1;
-		for (Ticket ticket : tickets) {
-			System.out.println(i++ + ". " + ticket);
-		}
+		showTickets(tickets);
 
-		System.out.println("\nList of one-way tickets csorted by date");
+		System.out.println("\nList of one-way tickets sorted by date");
 		Collections.sort(tickets, new TicketDateComparator());
-		i = 1;
-		for (Ticket ticket : tickets) {
-			System.out.println(i++ + ". " + ticket);
-		}
-
+		showTickets(tickets);
 	}
 
 }

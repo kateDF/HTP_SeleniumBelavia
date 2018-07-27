@@ -41,15 +41,11 @@ public class TestOneWayTicketsGetFullInformation extends BaseTest {
 		}
 
 		System.out.println("One-Way detail tickets sorted by date: ");
-		for (int i = 0; i < detailsOneWayTickets.size(); i++) {
-			System.out.println((i + 1) + ". " + detailsOneWayTickets.get(i));
-		}
+		showTickets(detailsOneWayTickets);
 
-		Collections.sort(detailsOneWayTickets, new TicketCostComparator());
 		System.out.println("\nOne-Way detail tickets sorted by cost: ");
-		for (int i = 0; i < detailsOneWayTickets.size(); i++) {
-			System.out.println((i + 1) + ". " + detailsOneWayTickets.get(i));
-		}
+		Collections.sort(detailsOneWayTickets, new TicketCostComparator());
+		showTickets(detailsOneWayTickets);
 
 	}
 

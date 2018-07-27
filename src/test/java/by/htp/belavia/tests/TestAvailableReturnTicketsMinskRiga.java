@@ -33,18 +33,12 @@ public class TestAvailableReturnTicketsMinskRiga extends BaseTest {
 		steps.navigateToFareCalendar();
 		List<ReturnTicket> returnTickets = steps.getListOfReturnTickets(searchData);
 
-		int i = 1;
 		System.out.println("All return tickets  sorted by cost");
 		Collections.sort(returnTickets, new TicketCostComparator());
-		for (ReturnTicket rt : returnTickets) {
-			System.out.println(i++ + ". " + rt);
-		}
+		showTickets(returnTickets);
 
-		i = 1;
 		System.out.println("\nAll return tickets  sorted by date");
 		Collections.sort(returnTickets, new ReturnTicketDateComparator());
-		for (ReturnTicket rt : returnTickets) {
-			System.out.println(i++ + ". " + rt);
-		}
+		showTickets(returnTickets);
 	}
 }
